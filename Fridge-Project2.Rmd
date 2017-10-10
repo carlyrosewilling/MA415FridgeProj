@@ -69,8 +69,22 @@ fridge$LOCRFRI2 <- apply(fridge[,9], MARGIN = 2, function(x){ifelse(x == 2, "Gar
 fridge$LOCRFRI2 <- apply(fridge[,9], MARGIN = 2, function(x){ifelse(x == 3, "Outside", x)})
 fridge$LOCRFRI2 <- apply(fridge[,9], MARGIN = 2, function(x){ifelse(x == 4, "Main Floor", x)})
 fridge$LOCRFRI2 <- apply(fridge[,9], MARGIN = 2, function(x){ifelse(x == 9, "Other", x)})
-
-
+fridge$NUMMEAL <- apply(fridge[,11], MARGIN = 2, function(x) {ifelse(x == 1, 21, x )})
+fridge$NUMMEAL <- apply(fridge[,11], MARGIN = 2, function(x) {ifelse(x == 2, 14, x )})
+fridge$NUMMEAL <- apply(fridge[,11], MARGIN = 2, function(x) {ifelse(x == 3, 7, x )})
+fridge$NUMMEAL <- apply(fridge[,11], MARGIN = 2, function(x) {ifelse(x == 4, 3.5, x )})
+fridge$NUMMEAL <- apply(fridge[,11], MARGIN = 2, function(x) {ifelse(x == 5, 1, x )})
+fridge$NUMMEAL <- apply(fridge[,11], MARGIN = 2, function(x) {ifelse(x == 6, 0.5, x )})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 1, "New England", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 2, "Mid Atlantic", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 3, "East North Central", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 4, "West North Central", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 5, "South Atlantic", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 6, "East South Central", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 7, "West South Central", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 8, "Mountain North", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 9, "Mountain South", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 10, "Pacific", x)})
 
 rebate1 <- filter(fridge, REBATEAPP > -1)
 rebate2 <- filter(fridge, RECYCAPP > -1)
@@ -351,16 +365,7 @@ Of those who have two or more refrigerators, the Pacific, South Atlantic, and Ea
 
 
 ```{r message=FALSE}
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 1, "New England", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 2, "Mid Atlantic", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 3, "East North Central", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 4, "West North Central", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 5, "South Atlantic", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 6, "East South Central", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 7, "West South Central", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 8, "Mountain North", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 9, "Mountain South", x)})
-fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 10, "Pacific", x)})
+
 #This chunk looks only at those who have 2+ refrigerators 
 y <- which(fridge$NUMFRIG %in% c(2, 3, 4, 5, 6, 7, 8))
 mark1 <-fridge$DIVISION[y]
@@ -415,18 +420,20 @@ ggplot(data=fridge, mapping=aes(x=EMPLOYHH, y=NUMFRIG, color=as.factor(EMPLOYHH)
 People that cook more hot meals own more refrigerators, which makes them an obvious group to advertise to. They also are more likely to own refrigerators that are extreme on the size spectrum; meaning that those who cook often are more likely to own very large or small refrigerators in addition to those who own the most common sizes.
 
 ```{r}
+
 #Amount of Hot meals cooked against fridges
-ggplot(data=fridge, aes(x=NUMMEAL, y=NUMFRIG,color=as.factor(NUMMEAL))) + geom_jitter() +
-labs(title= "Meals cooked vs. Number of Refrigerators owned",x="Number of Meals Cooked",y="Number of Refrigerators") +
-scale_colour_hue(name="")
+ggplot(data=fridge, aes(y = as.numeric(NUMMEAL), x = as.factor(NUMFRIG), color=as.factor(NUMFRIG))) + geom_boxplot() +
+  labs(title= "Meals cooked vs. Number of Refrigerators owned", y = "Number of Meals Cooked", x = "Number of Refrigerators") +
+  scale_colour_hue(name="")
 
 ```
 
 
 # The largest and smallest refrigerators are bought by those who cook more frequently:
 ```{r warning = FALSE}
-ggplot(data=fridge, aes(x=NUMMEAL, y=SIZRFRI1, color=as.factor((NUMMEAL)))) + geom_jitter() + labs(title="Meals cooked vs. Size of Refrigerator",x="Number of Meals Cooked",y="Size of Refrigerator") +
+ggplot(data=fridge, aes(y = NUMMEAL, x = SIZRFRI1, color=as.factor((SIZRFRI1)))) + geom_boxplot() + labs(title="Meals cooked vs. Size of Refrigerator",y = "Number of Meals Cooked",x ="Size of Refrigerator") +
   scale_colour_hue(name="")
+
 
 ```
 
