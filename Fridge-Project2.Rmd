@@ -16,6 +16,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 
 #load libraries
+#Please use install.packages("gridExtra") for this presentation
 library(knitr)
 library(tidyverse)
 library(grid)
@@ -417,9 +418,10 @@ ggplot(data=fridge, mapping=aes(x=EMPLOYHH, y=NUMFRIG, color=as.factor(EMPLOYHH)
 
 \pagebreak
 
-# The Culinarily Inclined own more refrigerators
+# People who cook more tend to own more refrigerators
 
-People that cook more hot meals own more refrigerators, which makes them an obvious group to advertise to. They also are more likely to own refrigerators that are extreme on the size spectrum; meaning that those who cook often are more likely to own very large or small refrigerators in addition to those who own the most common sizes.
+People that cook more hot meals frequently own more refrigerators, which makes them an obvious group to advertise to. They also are more likely to own refrigerators that are extreme on the size spectrum; meaning that those who cook often are more likely to own very large or small refrigerators in addition to those who own the most common sizes. Advertising refrigerators to people who are in the market for other cooking appliances and apparatuses would likely yield results.
+
 
 ```{r}
 
@@ -430,8 +432,13 @@ ggplot(data=fridge, aes(y = as.numeric(NUMMEAL), x = as.factor(NUMFRIG), color=a
 
 ```
 
+\pagebreak
 
 # The largest and smallest refrigerators are bought by those who cook more frequently:
+
+The only significant increase in refrigerator consumption come from the group that cooks a few meals a day, which also tend to have smaller than average refrigerators. Because this group is the most populous, we can assume that the average consumer would be willing to purchase an additional small refrigerator given conducive advertising.
+
+
 ```{r warning = FALSE}
 ggplot(data=fridge, aes(y = NUMMEAL, x = SIZRFRI1, color=as.factor((SIZRFRI1)))) + geom_boxplot() + labs(title="Meals cooked vs. Size of Refrigerator",y = "Number of Meals Cooked",x ="Size of Refrigerator") +
   scale_colour_hue(name="")
