@@ -295,7 +295,7 @@ Some areas of the United States have increased rates of refrigerator ownership. 
 
 
 ```{r warning=FALSE}
-ggplot(data=fridge, mapping=aes(x = DIVISION, y = NUMFRIG, color = as.factor(DIVISION))) + geom_jitter() + labs(title="Number of Refrigerators Per Division", y="Number of Refrigerators", x="Geographic Division") + scale_colour_hue(name="Geographic Region", labels=c("New England", "MidAtlantic", "ENC", "WNC", "SouthAtlantic", "ESC","WSC","MNo","MSo","Pacific")) + theme(axis.text.x = element_text(angle = 70, hjust = 1))
+ggplot(data=fridge, mapping=aes(x = DIVISION, y = NUMFRIG, color = as.factor(DIVISION))) + geom_jitter(aes(show.legend=F)) + labs(title="Number of Refrigerators Per Division", y="Number of Refrigerators", x="Geographic Division") + theme(axis.text.x = element_text(angle = 70, hjust = 1), legend.position = "none") 
 
 ```
 
@@ -322,16 +322,16 @@ Based on this information, we can conclude, at reasonable $\alpha$ levels, that 
 
 ```{r warning = FALSE}
 #this chunks the indices for each division so that other data may be stratified based on division
-NewEngland <- which(fridge$DIVISION %in% c(1))
-MidAt <- which(fridge$DIVISION %in% c(2)) 
-ENC <- which(fridge$DIVISION %in% c(3))
-WNC <- which(fridge$DIVISION %in% c(4))
-SoAt <- which(fridge$DIVISION %in% c(5))
-ESC <- which(fridge$DIVISION %in% c(6))
-WSC <- which(fridge$DIVISION %in% c(7))
-MNo <- which(fridge$DIVISION %in% c(8))
-MSo <- which(fridge$DIVISION %in% c(9))
-Pacific <- which(fridge$DIVISION %in% c(10))
+NewEngland <- which(fridge$DIVISION %in% "New England")
+MidAt <- which(fridge$DIVISION %in% "Mid Atlantic") 
+ENC <- which(fridge$DIVISION %in% "East North Central")
+WNC <- which(fridge$DIVISION %in% "West North Central")
+SoAt <- which(fridge$DIVISION %in% "South Atlantic")
+ESC <- which(fridge$DIVISION %in% "East South Central")
+WSC <- which(fridge$DIVISION %in% "West South Central")
+MNo <- which(fridge$DIVISION %in% "Mountain North")
+MSo <- which(fridge$DIVISION %in% "Mountain South")
+Pacific <- which(fridge$DIVISION %in% "Pacific")
 
 #This finds the number of fridges per household based on which geographic division they reside in
 NewEngland1 <- fridge$NUMFRIG[NewEngland]
@@ -390,7 +390,9 @@ ggplot(mark, aes(x=x))+
 #Age of Refrigerator Based on Geographic Location
 Based on the figure below, we can see that those in the Mountain North region have fewer refrigerators over 5-7 years old. In comparison, those in the MidAtlantic region have a higher concentration of older refrigerators when looking at the corresponding sample sizes. As a result, one can look to the regions containing a larger number of older refrigerators when marketing replacements.
 ```{r warning = FALSE}
-ggplot(data=fridge, mapping=aes(x=DIVISION, y=AGERFRI1, colour = DIVISION, show.legend = FALSE)) + geom_jitter() + labs(title="Age of Most Used Refrigerator vs. Geographic Region", x="Geographic Region", y="Age of Most Used Refrigerator") + theme(axis.text.x = element_text(angle = 70, hjust = 1))
+ggplot(data=fridge, mapping=aes(x=DIVISION, y=AGERFRI1, colour = DIVISION, show.legend = FALSE)) + geom_jitter() + labs(title="Age of Most Used Refrigerator vs. Geographic Region", x="Geographic Region", y="Age of Most Used Refrigerator") + theme(axis.text.x = element_text(angle = 70, hjust = 1),legend.position = "none")
+
+
 
 ```
 
