@@ -399,7 +399,7 @@ ggplot(data = fridge, mapping = aes(x = UATYP10, y = NUMFREEZ, color = as.factor
 As a result, a marketing campaign aimed more towards those who are Retired or Fully Employed. They may have higher rates of refrigerator ownership due to having incomes which place them in an economically stable position where they feel more comfortable buying more "luxury" type goods.
 ```{r message=FALSE}
 #this plots the number of fridges for each employment status
-ggplot(data=fridge, mapping=aes(x=EMPLOYHH, y=NUMFRIG, color=as.factor(EMPLOYHH))) + 
+ggplot(data=fridge, mapping=aes(x=EMPLOYHH, y=NUMFRIG, color=as.factor(EMPLOYHH))) +
   geom_jitter() + labs(title="Number of Refrigerator vs. Employment Status of Household", x="Employment Status", y="Number of Refrigerator") +
   scale_colour_hue(name="Employment Status", labels=c("Retired","Full Time","Part Time"))
 
@@ -413,8 +413,7 @@ People that cook more hot meals own more refrigerators, which makes them an obvi
 
 ```{r}
 #Amount of Hot meals cooked against fridges
-ggplot(data=fridge, aes(x=NUMMEAL, y=NUMFRIG,color=as.factor(NUMMEAL))) + geom_jitter() +
-labs(title= "Meals cooked vs. Number of Refrigerators owned",x="Number of Meals Cooked",y="Number of Refrigerators") +
+ggplot(data=fridge, aes(x=NUMMEAL, y=NUMFRIG,color=as.factor(NUMMEAL))) + geom_jitter() + labs(title= "Meals cooked vs. Number of Refrigerators owned",x="Number of Meals Cooked",y="Number of Refrigerators") +
 scale_colour_hue(name="")
 
 ```
