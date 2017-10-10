@@ -92,11 +92,15 @@ rebate2 <- filter(fridge, RECYCAPP > -1)
 rebate3 <- filter(fridge, TAXCREDITAPP > -1)
 ```
 
+\pagebreak
+
 # General Refrigerator Size
 
-- Overall, categories 3 and 4 are the most popular sizes of primary refrigerator
-- 1 and 5 barely exist
-- Larger refrigerators are more likely to have ice dispensers
+Size categories 3 and 4 represent refrigerators with 17.6 to 22.5 and 22.6 to 29.5 cubic feet of storage volume. They are by far the most popular sizes of primary refrigerator. The larger size of common refrigerator is more likely to have a through-door ice dispenser.
+
+Size category 2, 17.5 cubic feet or less, is a less popular alternative.
+
+On the fringes, compact fridges and fridges with volume more than 29.5 cubic feet are extremely uncommon.
 
 ```{r warning = FALSE}
 ggplot(data = fridge, mapping = aes(x = SIZRFRI1)) + 
@@ -108,10 +112,9 @@ ggplot(data = fridge, mapping = aes(x = SIZRFRI1)) +
   
 # Second Refrigerator size
 
-- Second refrigerators are much more likely to be small, but there are still more midsize 2nd refrigerators
-- Most common locations of 2nd refrigerators are basement, garage and main floor
-- Smaller second refrigerators more likely on main floor
-- Second refrigerator in garage or basement is more likely midsize
+Though most respondents owned only one refrigerator, many had a second fridge in use. As we might expect, smaller fridge sizes (including compacts) are more common for second fridges but the "regular" sizes are still very common.
+
+Most second fridges are located in a basement, garage, or on the main floor of the home. The main floor is more common for compact second fridges, while a second large refrigerator is more likely to be in a basement or garage.
 
 ``` {r warning = FALSE}
 ggplot(data = filter(fridge, SIZRFRI2 > 0), mapping = aes(x = SIZRFRI2)) +
@@ -119,7 +122,11 @@ ggplot(data = filter(fridge, SIZRFRI2 > 0), mapping = aes(x = SIZRFRI2)) +
   labs(x = "Size of 2nd Refrigerator", fill = "Location of 2nd Refrigerator")
 ```
 
+\pagebreak
+
 # Most refrigerators have 2 doors in some configuration. Ice dispensers are less than 50% of 2-door models
+
+Refrigerators generally have 1 or 2 doors, although some larger models have 3 doors. We can see that 2 door models are the most common, and that through-door ice dispensers are common (though not a majority) for 2 door fridges and very rare for single door models.
 
 ```{r warning = FALSE}
 ggplot(data = fridge, mapping = aes(x = TYPERFR1)) + 
@@ -282,10 +289,10 @@ ggplot(data=fridge, mapping=aes(x=SIZRFRI1, fill = KOWNRENT)) +
 ```{r warning = FALSE}
 
 # How can I get rid of everything in the negative?
-ggplot(data=fridge, mapping=aes(x=ICE, fill = KOWNRENT)) +
+ggplot(data = filter(fridge, !is.na(ICE)), mapping=aes(x=ICE, fill = KOWNRENT)) +
   geom_bar() + facet_wrap(~ as.factor(KOWNRENT), nrow=3) +
   scale_fill_hue(name="Home Ownership Status", labels=c("Other", "Own", "Rent")) +
-  labs(title="In-Door Ice and Home Ownership", x="In-Door Ice Machine (0=No Ice and 1=Ice)")
+  labs(title="In-Door Ice and Home Ownership", x = "Ice")
 ```
 
 \pagebreak
@@ -300,6 +307,7 @@ ggplot(data=fridge, mapping=aes(x = DIVISION, y = NUMFRIG, color = as.factor(DIV
 
 ```
 
+\pagebreak
 
 #T-Test for Difference of Means 
 Because the sample size for each census division is different, the plot does not give us as much information as we would like. After running an independent t-test for difference in means, comparing each region to the national average, the following information was found: 
@@ -321,7 +329,7 @@ Pacific      | 1.363          | 0.124
 
 Based on this information, we can conclude, at reasonable $\alpha$ levels, that people in the MidAtlantic, WNC, and Mountain N. have more refrigerators on average than the average national number. Those in ESC have fewer refrigerators on average. As stated before, this may be due in part to lack of availability of grocery stores in the region, or different culinary customs.
 
-```{r warning = FALSE}
+```{r warning = FALSE, include = FALSE}
 #this chunks the indices for each division so that other data may be stratified based on division
 NewEngland <- which(fridge$DIVISION %in% "New England")
 MidAt <- which(fridge$DIVISION %in% "Mid Atlantic") 
@@ -388,6 +396,8 @@ ggplot(mark, aes(x=x))+
   labs(title="Geographic Division of those with 0 Refrigerators", x="Geographic Division", y="% Of Households") + theme(axis.text.x = element_text(angle = 70, hjust = 1))
 ```
 
+\pagebreak
+
 #Age of Refrigerator Based on Geographic Location
 Based on the figure below, we can see that those in the Mountain North region have fewer refrigerators over 5-7 years old. In comparison, those in the MidAtlantic region have a higher concentration of older refrigerators when looking at the corresponding sample sizes. As a result, one can look to the regions containing a larger number of older refrigerators when marketing replacements.
 ```{r warning = FALSE}
@@ -397,6 +407,8 @@ ggplot(data=fridge, mapping=aes(x=DIVISION, y=AGERFRI1, colour = DIVISION, show.
 
 ```
 
+\pagebreak
+
 #Urban Type also impacts number of Freezers
 From just looking at the figure below, it is evident that those in Rural areas have more separate freezers than those who live in Urban areas or Urban Clusters. This is likely due to increased distance between home and the grocery store, making larger grocery trips more efficient. With this information, we can choose to market refrigerators with larger freezers to individuals in rural areas so that they do not have to rely as much on their extra freezer.
 
@@ -404,6 +416,8 @@ From just looking at the figure below, it is evident that those in Rural areas h
 #This plots the number of refrigerators vs the urban location type 
 ggplot(data = fridge, mapping = aes(x = UATYP10, y = NUMFREEZ, colour = as.factor(UATYP10))) + geom_jitter() + labs(title="Number of Freezers vs. Urban Type", x="Urban Type", y="Number of Freezers")+ scale_colour_hue(name="Location Type", labels=c("Urban Cluster","Rural","Urban Area"))
 ```
+
+\pagebreak
 
 # Retired and Fully employed people are most likely to own multiple refrigerators:
 As a result, a marketing campaign aimed more towards those who are Retired or Fully Employed. They may have higher rates of refrigerator ownership due to having incomes which place them in an economically stable position where they feel more comfortable buying more "luxury" type goods.
