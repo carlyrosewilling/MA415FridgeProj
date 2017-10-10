@@ -1,6 +1,11 @@
 ---
 title: "Refrigerator Sales Project"
-author: "Carly Rose Willing in collaboration with Brian Clare, Elise Roche, Melody Schaff, and Joe Kass"
+author:
+- Carly Rose Willing
+- Brian Clare
+- Joe Kass
+- Melody Shaff
+- Elise Roche
 date: "October 10, 2017"
 output:
   pdf_document: default
@@ -277,8 +282,7 @@ Some areas of the United States have increased rates of refrigerator ownership. 
 
 ```{r warning=FALSE}
 ggplot(data=fridge, mapping=aes(x = DIVISION, y = NUMFRIG, color = as.factor(DIVISION))) + 
-  geom_jitter() + geom_smooth(se = FALSE) + 
-  labs(title="Number of Refrigerators vs. Geographic Census Division", y="Number of Refrigerators", x="Geographic Division") +
+  geom_jitter() + labs(title="Number of Refrigerators vs. Geographic Census Division", y="Number of Refrigerators", x="Geographic Division") +
   scale_colour_hue(name="Geographic Division", labels=c("New England", "MidAtlantic", "ENC", "WNC", "SouthAtlantic", "ESC","WSC","MNo","MSo","Pacific"))
 
 ```
@@ -300,7 +304,7 @@ Mountain S.  | 1.335          | 0.125   |
 Pacific      | 1.363          | 0.124
 
 
-Based on this information, we can conclude, at reasonable \alpha levels, that people in the MidAtlantic, WNC, and Mountain N. have more refrigerators on average than the average national number. Those in ESC have fewer refrigerators on average. As stated before, this may be due in part to lack of availability of grocery stores in the region, or different culinary customs.
+Based on this information, we can conclude, at reasonable $\alpha$ levels, that people in the MidAtlantic, WNC, and Mountain N. have more refrigerators on average than the average national number. Those in ESC have fewer refrigerators on average. As stated before, this may be due in part to lack of availability of grocery stores in the region, or different culinary customs.
 
 ```{r warning = FALSE}
 #this chunks the indices for each division so that other data may be stratified based on division
@@ -382,8 +386,7 @@ ggplot(mark, aes(x=x))+
 #Age of Refrigerator Based on Geographic Location
 Based on the figure below, we can see that those in the Mountain North region have fewer refrigerators over 5-7 years old. In comparison, those in the MidAtlantic region have a higher concentration of older refrigerators when looking at the corresponding sample sizes. As a result, one can look to the regions containing a larger number of older refrigerators when marketing replacements.
 ```{r warning = FALSE}
-ggplot(data=fridge, mapping=aes(x=DIVISION, y=AGERFRI1, color=as.factor(DIVISION))) + 
-  geom_jitter() + geom_smooth(se=FALSE) + labs(title="Age of Most Used Refrigerator vs. Geographic Region", x="Geographic Region", y="Age of Most Used Refrigerator") +
+ggplot(data=fridge, mapping=aes(x=DIVISION, y=AGERFRI1, color=as.factor(DIVISION))) + geom_jitter() + labs(title="Age of Most Used Refrigerator vs. Geographic Region", x="Geographic Region", y="Age of Most Used Refrigerator") +
   scale_colour_hue(name="Geographic Region", labels=c("New England", "MidAtlantic", "ENC", "WNC", "SouthAtlantic", "ESC","WSC","MNo","MSo","Pacific"))
 
 ```
@@ -393,7 +396,7 @@ From just looking at the figure below, it is evident that those in Rural areas h
 
 ```{r message = FALSE}
 #This plots the number of refrigerators vs the urban location type 
-ggplot(data = fridge, mapping = aes(x = UATYP10, y = NUMFREEZ, color = as.factor(UATYP10))) + geom_jitter() + geom_smooth(se = FALSE) + labs(title="Number of Freezers vs. Urban Type", x="Urban Type", y="Number of Freezers")+ scale_colour_hue(name="Location Type", labels=c("Urban Cluster","Rural","Urban Area"))
+ggplot(data = fridge, mapping = aes(x = UATYP10, y = NUMFREEZ, color = as.factor(UATYP10))) + geom_jitter() + labs(title="Number of Freezers vs. Urban Type", x="Urban Type", y="Number of Freezers")+ scale_colour_hue(name="Location Type", labels=c("Urban Cluster","Rural","Urban Area"))
 ```
 
 # Retired and Fully employed people are most likely to own multiple refrigerators:
@@ -402,7 +405,7 @@ As a result, a marketing campaign aimed more towards those who are Retired or Fu
 ```{r message=FALSE}
 #this plots the number of fridges for each employment status
 ggplot(data=fridge, mapping=aes(x=EMPLOYHH, y=NUMFRIG, color=as.factor(EMPLOYHH))) + 
-  geom_jitter() + geom_smooth(se=FALSE) + labs(title="Number of Refrigerator vs. Employment Status of Household", x="Employment Status", y="Number of Refrigerator") +
+  geom_jitter() + labs(title="Number of Refrigerator vs. Employment Status of Household", x="Employment Status", y="Number of Refrigerator") +
   scale_colour_hue(name="Employment Status", labels=c("Retired","Full Time","Part Time"))
 
 ```
