@@ -281,9 +281,7 @@ Some areas of the United States have increased rates of refrigerator ownership. 
 
 
 ```{r warning=FALSE}
-ggplot(data=fridge, mapping=aes(x = DIVISION, y = NUMFRIG, color = as.factor(DIVISION))) + 
-  geom_jitter() + labs(title="Number of Refrigerators vs. Geographic Census Division", y="Number of Refrigerators", x="Geographic Division") +
-  scale_colour_hue(name="Geographic Division", labels=c("New England", "MidAtlantic", "ENC", "WNC", "SouthAtlantic", "ESC","WSC","MNo","MSo","Pacific"))
+ggplot(data=fridge, mapping=aes(x = DIVISION, y = NUMFRIG, color = as.factor(DIVISION))) + geom_jitter() + labs(title="Number of Refrigerators Per Division", y="Number of Refrigerators", x="Geographic Division") + scale_colour_hue(name="Geographic Region", labels=c("New England", "MidAtlantic", "ENC", "WNC", "SouthAtlantic", "ESC","WSC","MNo","MSo","Pacific")) + theme(axis.text.x = element_text(angle = 70, hjust = 1))
 
 ```
 
@@ -349,20 +347,20 @@ t.test(fridge$NUMFRIG, Pacific1)
 \pagebreak
 
 # Areas with multiple refrigerator households:
-Of those who have two or more refrigerators, it seems as though the Mid Atlantic, West North Central, and East North Central are where the majority of the households reside. Similarly, as shown, of those households without a refrigerator, the majority of the households reside in the West South Central or South Atlantic regions. This is interesting particularly for the West South Central region because the sample size is lower, indicating that the lack of refrigerators may be due to a geographic variable. 
+Of those who have two or more refrigerators, the Pacific, South Atlantic, and East North Central are where the percentage of households with multiple refrigerators are located. Similarly, as shown, of those households without a refrigerator, the highest proportion of houses is in West South Central and South Atlantic. This is interesting and surprising because it seems like most households in the South Atlantic either have multiple refrigerators or none at all. 
 
-1 = New England  
-2 = Mid Atlantic  
-3 = East North Central  
-4 = West North Central  
-5 = South Atlantic  
-6 = East South Central  
-7 = West South Central  
-8 = Mountain North  
-9 = Mountain South  
-10 = Pacific  
 
 ```{r message=FALSE}
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 1, "New England", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 2, "Mid Atlantic", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 3, "East North Central", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 4, "West North Central", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 5, "South Atlantic", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 6, "East South Central", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 7, "West South Central", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 8, "Mountain North", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 9, "Mountain South", x)})
+fridge$DIVISION <- apply(fridge[,20], MARGIN = 2, function(x){ifelse(x == 10, "Pacific", x)})
 #This chunk looks only at those who have 2+ refrigerators 
 y <- which(fridge$NUMFRIG %in% c(2, 3, 4, 5, 6, 7, 8))
 mark1 <-fridge$DIVISION[y]
@@ -370,9 +368,8 @@ mark1 <-fridge$DIVISION[y]
 #this plots those who have 2+ refrigerators based on their geographic division
 mark1 <- data.frame(x=mark1)
 ggplot(mark1, aes(x=x))+
-  geom_histogram(binwidth=1,color="black", fill="red")+
-  scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10))+
-  labs(title="Geographic Division of those with 2 or More Refrigerators", x="Geographic Division", y="Number of Households with 2+ Refrigerators")
+  geom_bar(color="black", fill= "light coral", aes(y = (..count..)/sum(..count..))) + scale_x_discrete(limits=c("New England","Mid Atlantic", "East North Central", "West North Central", "South Atlantic", "East South Central", "West South Central", "Mountain North", "Mountain South", "Pacific"))+
+  labs(title="Geographic Division of those with 2 or More Refrigerators", x="Geographic Division", y="% Of Households") + theme(axis.text.x = element_text(angle = 70, hjust = 1))
 ```
 ```{r message = FALSE}
 #this chunk looks at homes with 0 refrigerators
@@ -380,16 +377,15 @@ zero <- which(fridge$NUMFRIG %in% c(0))
 mark <- fridge$DIVISION[zero]
 mark <- data.frame(x=mark)
 ggplot(mark, aes(x=x))+
-  geom_histogram(binwidth=1,color="black", fill="blue")+
-  scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10))+
-  labs(title="Geographic Division of those with 0 Refrigerators", x="Geographic Division", y="Number of Households with 0 Refrigerators")
+  geom_bar(color="black", fill="aqua marine", aes(y = (..count..)/sum(..count..)))+
+  scale_x_discrete(limits=c("New England","Mid Atlantic", "East North Central", "West North Central", "South Atlantic", "East South Central", "West South Central", "Mountain North", "Mountain South", "Pacific"))+
+  labs(title="Geographic Division of those with 0 Refrigerators", x="Geographic Division", y="% Of Households") + theme(axis.text.x = element_text(angle = 70, hjust = 1))
 ```
 
 #Age of Refrigerator Based on Geographic Location
 Based on the figure below, we can see that those in the Mountain North region have fewer refrigerators over 5-7 years old. In comparison, those in the MidAtlantic region have a higher concentration of older refrigerators when looking at the corresponding sample sizes. As a result, one can look to the regions containing a larger number of older refrigerators when marketing replacements.
 ```{r warning = FALSE}
-ggplot(data=fridge, mapping=aes(x=DIVISION, y=AGERFRI1, color=as.factor(DIVISION))) + geom_jitter() + labs(title="Age of Most Used Refrigerator vs. Geographic Region", x="Geographic Region", y="Age of Most Used Refrigerator") +
-  scale_colour_hue(name="Geographic Region", labels=c("New England", "MidAtlantic", "ENC", "WNC", "SouthAtlantic", "ESC","WSC","MNo","MSo","Pacific"))
+ggplot(data=fridge, mapping=aes(x=DIVISION, y=AGERFRI1, colour = DIVISION, show.legend = FALSE)) + geom_jitter() + labs(title="Age of Most Used Refrigerator vs. Geographic Region", x="Geographic Region", y="Age of Most Used Refrigerator") + theme(axis.text.x = element_text(angle = 70, hjust = 1))
 
 ```
 
@@ -398,7 +394,7 @@ From just looking at the figure below, it is evident that those in Rural areas h
 
 ```{r message = FALSE}
 #This plots the number of refrigerators vs the urban location type 
-ggplot(data = fridge, mapping = aes(x = UATYP10, y = NUMFREEZ, color = as.factor(UATYP10))) + geom_jitter() + labs(title="Number of Freezers vs. Urban Type", x="Urban Type", y="Number of Freezers")+ scale_colour_hue(name="Location Type", labels=c("Urban Cluster","Rural","Urban Area"))
+ggplot(data = fridge, mapping = aes(x = UATYP10, y = NUMFREEZ, colour = as.factor(UATYP10))) + geom_jitter() + labs(title="Number of Freezers vs. Urban Type", x="Urban Type", y="Number of Freezers")+ scale_colour_hue(name="Location Type", labels=c("Urban Cluster","Rural","Urban Area"))
 ```
 
 # Retired and Fully employed people are most likely to own multiple refrigerators:
